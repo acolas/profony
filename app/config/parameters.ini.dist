@@ -1,0 +1,13 @@
+[parameters]
+    database_driver="pdo_mysql"
+    database_host="localhost"
+    database_port="8889"
+    database_name="site-pro"
+    database_user="root"
+    database_password="root"
+    mailer_transport="smtp"
+    mailer_host="localhost"
+    mailer_user=""
+    mailer_password=""
+    locale="en"
+    secret="938a2a6c3104d57b1262d10d628e717d72"
