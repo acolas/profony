@@ -1,0 +1,7 @@
+parameters:
+#    profony_site.example.class: Profony\SiteBundle\Example
+
+services:
+#    profony_site.example:
+#        class: %profony_site.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
