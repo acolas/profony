@@ -3,3 +3,8 @@ ProfonySiteBundle_homepage:
     defaults: { _controller: ProfonySiteBundle:Page:index }
     requirements:
         _method:  GET
+ProfonySiteBundle_about:
+    pattern:  /about
+    defaults: { _controller: ProfonySiteBundle:Page:about }
+    requirements:
+        _method:  GET
