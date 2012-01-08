@@ -1,3 +1,5 @@
 ProfonySiteBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: ProfonySiteBundle:Default:index }
+    pattern:  /
+    defaults: { _controller: ProfonySiteBundle:Page:index }
+    requirements:
+        _method:  GET
