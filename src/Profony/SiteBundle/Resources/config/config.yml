@@ -1,0 +1,4 @@
+# src/Blogger/BlogBundle/Resources/config/config.yml
+parameters:
+    # Blogger contact email address
+    profony_site.emails.contact_email: anthony.colas@gmail.com

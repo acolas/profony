@@ -8,3 +8,8 @@ ProfonySiteBundle_about:
     defaults: { _controller: ProfonySiteBundle:Page:about }
     requirements:
         _method:  GET
+ProfonySiteBundle_contact:
+    pattern:  /contact
+    defaults: { _controller: ProfonySiteBundle:Page:contact }
+    requirements:
+        _method:  GET|POST
