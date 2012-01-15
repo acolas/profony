@@ -13,3 +13,9 @@ ProfonySiteBundle_contact:
     defaults: { _controller: ProfonySiteBundle:Page:contact }
     requirements:
         _method:  GET|POST
+ProfonySiteBundle_blog_show:
+    pattern:  /{id}
+    defaults: { _controller: ProfonySiteBundle:Blog:show }
+    requirements:
+        _method:  GET
+        id: \d+
