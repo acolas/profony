@@ -210,14 +210,12 @@ class Blog {
         $this->setUpdated(new \DateTime());
     }
 
-
     /**
      * Add comments
      *
      * @param Profony\SiteBundle\Entity\Comment $comments
      */
-    public function addComment(\Profony\SiteBundle\Entity\Comment $comments)
-    {
+    public function addComment(\Profony\SiteBundle\Entity\Comment $comments) {
         $this->comments[] = $comments;
     }
 
@@ -226,8 +224,12 @@ class Blog {
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
     }
+
+    public function __toString() {
+        return $this->getTitle();
+    }
+
 }

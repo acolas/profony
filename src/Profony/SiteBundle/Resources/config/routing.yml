@@ -19,3 +19,9 @@ ProfonySiteBundle_blog_show:
     requirements:
         _method:  GET
         id: \d+
+ProfonySiteBundle_comment_create:
+    pattern:  /comment/{blog_id}
+    defaults: { _controller: ProfonySiteBundle:Comment:create }
+    requirements:
+        _method:  POST
+        blog_id: \d+
