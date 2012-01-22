@@ -3,8 +3,9 @@
 namespace Profony\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
-/** 
+/**
  * @ORM\Entity(repositoryClass="Profony\SiteBundle\Repository\BlogRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="blog")
@@ -42,7 +43,6 @@ class Blog {
      * @ORM\Column(type="text")
      */
     protected $tags;
-    protected $comments;
 
     /**
      * @ORM\Column(type="datetime")
@@ -53,6 +53,11 @@ class Blog {
      * @ORM\Column(type="datetime")
      */
     protected $updated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
+     */
+    protected $comments;
 
     /**
      * Get id
@@ -193,6 +198,7 @@ class Blog {
     }
 
     public function __construct() {
+        $this->comments = new ArrayCollection();
         $this->setCreated(new \DateTime());
         $this->setUpdated(new \DateTime());
     }
@@ -204,4 +210,24 @@ class Blog {
         $this->setUpdated(new \DateTime());
     }
 
+
+    /**
+     * Add comments
+     *
+     * @param Profony\SiteBundle\Entity\Comment $comments
+     */
+    public function addComment(\Profony\SiteBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }
