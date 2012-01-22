@@ -10,7 +10,15 @@ use Profony\SiteBundle\Form\EnquiryType;
 class PageController extends Controller {
 
     public function indexAction() {
-        return $this->render('ProfonySiteBundle:Page:index.html.twig');
+        $em = $this->getDoctrine()
+                   ->getEntityManager();
+
+        $blogs = $em->getRepository('ProfonySiteBundle:Blog')
+                    ->getLatestBlogs();
+
+        return $this->render('ProfonySiteBundle:Page:index.html.twig', array(
+            'blogs' => $blogs
+        ));
     }
 
     public function aboutAction() {

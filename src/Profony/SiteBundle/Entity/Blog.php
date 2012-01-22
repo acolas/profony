@@ -1,15 +1,16 @@
 <?php
 
 namespace Profony\SiteBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
+/** 
+ * @ORM\Entity(repositoryClass="Profony\SiteBundle\Repository\BlogRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="blog")
  */
-class Blog
-{
+class Blog {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -41,7 +42,6 @@ class Blog
      * @ORM\Column(type="text")
      */
     protected $tags;
-
     protected $comments;
 
     /**
@@ -59,8 +59,7 @@ class Blog
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -69,8 +68,7 @@ class Blog
      *
      * @param string $title
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
     }
 
@@ -79,8 +77,7 @@ class Blog
      *
      * @return string 
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -89,8 +86,7 @@ class Blog
      *
      * @param string $author
      */
-    public function setAuthor($author)
-    {
+    public function setAuthor($author) {
         $this->author = $author;
     }
 
@@ -99,8 +95,7 @@ class Blog
      *
      * @return string 
      */
-    public function getAuthor()
-    {
+    public function getAuthor() {
         return $this->author;
     }
 
@@ -109,8 +104,7 @@ class Blog
      *
      * @param text $blog
      */
-    public function setBlog($blog)
-    {
+    public function setBlog($blog) {
         $this->blog = $blog;
     }
 
@@ -119,9 +113,11 @@ class Blog
      *
      * @return text 
      */
-    public function getBlog()
-    {
-        return $this->blog;
+    public function getBlog($length = null) {
+        if (false === is_null($length) && $length > 0)
+            return substr($this->blog, 0, $length);
+        else
+            return $this->blog;
     }
 
     /**
@@ -129,8 +125,7 @@ class Blog
      *
      * @param string $image
      */
-    public function setImage($image)
-    {
+    public function setImage($image) {
         $this->image = $image;
     }
 
@@ -139,8 +134,7 @@ class Blog
      *
      * @return string 
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
 
@@ -149,8 +143,7 @@ class Blog
      *
      * @param text $tags
      */
-    public function setTags($tags)
-    {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
@@ -159,8 +152,7 @@ class Blog
      *
      * @return text 
      */
-    public function getTags()
-    {
+    public function getTags() {
         return $this->tags;
     }
 
@@ -169,8 +161,7 @@ class Blog
      *
      * @param datetime $created
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
     }
 
@@ -179,8 +170,7 @@ class Blog
      *
      * @return datetime 
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -189,8 +179,7 @@ class Blog
      *
      * @param datetime $updated
      */
-    public function setUpdated($updated)
-    {
+    public function setUpdated($updated) {
         $this->updated = $updated;
     }
 
@@ -199,13 +188,11 @@ class Blog
      *
      * @return datetime 
      */
-    public function getUpdated()
-    {
+    public function getUpdated() {
         return $this->updated;
     }
-    
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->setCreated(new \DateTime());
         $this->setUpdated(new \DateTime());
     }
@@ -213,8 +200,8 @@ class Blog
     /**
      * @ORM\preUpdate
      */
-    public function setUpdatedValue()
-    {
-       $this->setUpdated(new \DateTime());
+    public function setUpdatedValue() {
+        $this->setUpdated(new \DateTime());
     }
+
 }
