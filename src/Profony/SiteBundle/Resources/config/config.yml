@@ -1,4 +1,5 @@
 parameters:
     profony_site.emails.contact_email: anthony.colas@gmail.com
-    
+    # Blogger max latest comments
+    profony_site.comments.latest_comment_limit: 10    
     

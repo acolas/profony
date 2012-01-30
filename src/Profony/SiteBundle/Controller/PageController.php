@@ -11,14 +11,14 @@ class PageController extends Controller {
 
     public function indexAction() {
         $em = $this->getDoctrine()
-                   ->getEntityManager();
+                ->getEntityManager();
 
         $blogs = $em->getRepository('ProfonySiteBundle:Blog')
-                    ->getLatestBlogs();
+                ->getLatestBlogs();
 
         return $this->render('ProfonySiteBundle:Page:index.html.twig', array(
-            'blogs' => $blogs
-        ));
+                    'blogs' => $blogs
+                ));
     }
 
     public function aboutAction() {
@@ -56,7 +56,6 @@ class PageController extends Controller {
                 ));
     }
 
-    
     public function sidebarAction() {
         $em = $this->getDoctrine()
                 ->getEntityManager();
@@ -67,8 +66,15 @@ class PageController extends Controller {
         $tagWeights = $em->getRepository('ProfonySiteBundle:Blog')
                 ->getTagWeights($tags);
 
+        $commentLimit = $this->container
+                ->getParameter('profony_site.comments.latest_comment_limit');
+        $latestComments = $em->getRepository('ProfonySiteBundle:Comment')
+                ->getLatestComments($commentLimit);
+
         return $this->render('ProfonySiteBundle:Page:sidebar.html.twig', array(
+                    'latestComments' => $latestComments,
                     'tags' => $tagWeights
                 ));
     }
+
 }
