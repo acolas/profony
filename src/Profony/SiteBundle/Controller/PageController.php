@@ -56,4 +56,19 @@ class PageController extends Controller {
                 ));
     }
 
+    
+    public function sidebarAction() {
+        $em = $this->getDoctrine()
+                ->getEntityManager();
+
+        $tags = $em->getRepository('ProfonySiteBundle:Blog')
+                ->getTags();
+
+        $tagWeights = $em->getRepository('ProfonySiteBundle:Blog')
+                ->getTagWeights($tags);
+
+        return $this->render('ProfonySiteBundle:Page:sidebar.html.twig', array(
+                    'tags' => $tagWeights
+                ));
+    }
 }
