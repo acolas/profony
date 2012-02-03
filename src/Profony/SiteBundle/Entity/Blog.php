@@ -7,8 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="Profony\SiteBundle\Repository\BlogRepository")
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="blog")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Blog {
 
@@ -23,6 +23,11 @@ class Blog {
      * @ORM\Column(type="string")
      */
     protected $title;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $slug;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -45,6 +50,11 @@ class Blog {
     protected $tags;
 
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
+     */
+    protected $comments;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created;
@@ -54,15 +64,47 @@ class Blog {
      */
     protected $updated;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
-     */
-    protected $comments;
+    public function __construct() {
+        $this->comments = new ArrayCollection();
+
+        $this->setCreated(new \DateTime());
+        $this->setUpdated(new \DateTime());
+    }
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\prePersist
      */
-    protected $slug;
+    public function setCreatedValue() {
+        $this->setCreated(new \DateTime());
+        $this->setUpdated(new \DateTime());
+    }
+
+    /**
+     * @ORM\preUpdate
+     */
+    public function setUpdatedValue() {
+        $this->setUpdated(new \DateTime());
+    }
+
+    public function __toString() {
+        return $this->getTitle();
+    }
+
+    public function slugify($text) {
+        // replace non letter or digits by -
+        $text = preg_replace('#[^\\pL\d]+#u', '-', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // lowercase
+        $text = strtolower($text);
+
+        // remove unwanted characters
+        $text = preg_replace('#[^-\w]+#', '', $text);
+
+        return $text;
+    }
 
     /**
      * Get id
@@ -80,6 +122,7 @@ class Blog {
      */
     public function setTitle($title) {
         $this->title = $title;
+
         $this->setSlug($this->title);
     }
 
@@ -203,25 +246,12 @@ class Blog {
         return $this->updated;
     }
 
-    public function __construct() {
-        $this->comments = new ArrayCollection();
-        $this->setCreated(new \DateTime());
-        $this->setUpdated(new \DateTime());
-    }
-
-    /**
-     * @ORM\preUpdate
-     */
-    public function setUpdatedValue() {
-        $this->setUpdated(new \DateTime());
-    }
-
     /**
      * Add comments
      *
      * @param Profony\SiteBundle\Entity\Comment $comments
      */
-    public function addComment(\Profony\SiteBundle\Entity\Comment $comments) {
+    public function addComments(\Profony\SiteBundle\Entity\Comment $comments) {
         $this->comments[] = $comments;
     }
 
@@ -232,10 +262,6 @@ class Blog {
      */
     public function getComments() {
         return $this->comments;
-    }
-
-    public function __toString() {
-        return $this->getTitle();
     }
 
     /**
@@ -256,29 +282,13 @@ class Blog {
         return $this->slug;
     }
 
-    public function slugify($text) {
-        // replace non letter or digits by -
-        $text = preg_replace('#[^\\pL\d]+#u', '-', $text);
-
-        // trim
-        $text = trim($text, '-');
-
-        // transliterate
-        if (function_exists('iconv')) {
-            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        }
-
-        // lowercase
-        $text = strtolower($text);
-
-        // remove unwanted characters
-        $text = preg_replace('#[^-\w]+#', '', $text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
+    /**
+     * Add comments
+     *
+     * @param Profony\SiteBundle\Entity\Comment $comments
+     */
+    public function addComment(\Profony\SiteBundle\Entity\Comment $comments) {
+        $this->comments[] = $comments;
     }
 
 }
